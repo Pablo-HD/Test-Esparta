@@ -1,5 +1,5 @@
 const A = [9];
-const B = [9, 3, 9, 3, 9, 12, 9, 9];
+const B = [9, 3, 9, 3, 9, 12, 13, 9];
 
 function solution(param) {
   for (let i = 0; i < param.length; i++) {
