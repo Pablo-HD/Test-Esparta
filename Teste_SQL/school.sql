@@ -5,21 +5,53 @@ FROM
 	turma t
 JOIN
 	disciplina d
-	ON d.nome = 'MATEMATICA'
+	ON t.disciplina_id = d.id
+where
+	professor.nome = 'JOAO PEDRO';
 
 --Buscar todos os alunos que frequentem aulas de 'MATEMATICA' e também 'FISICA'.
 
 SELECT
 	ALUNO.Nome
 FROM
-	(SELECT * FROM  ALUNO_TURMA)
-JOIN
-	ALUNO
-	ON ALUNO.id = ALUNO_TURMA.aluno_id
+	aluno
+JOIN 
+	disciplina 
+	ON disciplina.id = turma.disciplina_id
 JOIN
 	TURMA
-	ON TURMA.id = ALUNO_TURMA.turma_id
-JOIN
-	DISCIPLINA
-	ON TURMA.disciplina_id = DISCIPLINA.id
-	WHERE DISCIPLINA.nome = 'MATEMATICA' AND WHERE DISCIPLINA.nome = 'FISICA' 
+	ON aluno_id.id = ALUNO.id
+WHERE 
+	DISCIPLINA.nome = 'MATEMATICA' OR DISCIPLINA.nome = 'FISICA' 
+
+
+-- Dias que tenham aula de matemática
+SELECT 
+	t.dia_da_semana 
+FROM 
+	turma t
+JOIN disciplina d
+	ON t.disciplina_id = d.id
+WHERE d.nome = 'MATEMATICA';
+
+
+-- Alunos de matemática que não frequentam quimica
+SELECT 
+	aluno.nome 
+FROM 
+	aluno
+JOIN 
+	turma 
+	ON aluno.id = turma.aluno_id
+JOIN disciplina 
+	ON turma.disciplina_id = disciplina.id
+WHERE 
+	disciplina.nome = 'MATEMATICA'
+AND 
+	aluno.id 
+	NOT IN (
+        	SELECT aluno.id FROM aluno
+          		JOIN turma ON turma.aluno_id = aluno.id
+          		JOIN disciplina ON disciplina.id = turma.disciplina_id
+          		WHERE disciplina.nome = 'QUIMICA'
+        );
